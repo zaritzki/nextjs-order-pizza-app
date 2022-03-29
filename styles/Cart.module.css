@@ -36,13 +36,18 @@
 .wrapper {
 	width: 90%;
 	max-height: 300px;
-	background-color: #333;
+	margin-left: auto;
+	background-color: #dedede;
 	padding: 50px;
-	padding-top: 10px;
 	display: flex;
 	flex-direction: column;
 	justify-content: space-between;
-	color: white;
+}
+
+.totalText {
+	display: flex;
+	justify-content: space-between;
+	margin-bottom: 5px;
 }
 
 .totalTextTitle {
@@ -50,9 +55,12 @@
 }
 
 .button {
-	height: 30px;
-	color: #d1411e;
+	color: #fff;
+	padding: 15px 20px;
+	background-color: #d1411e;
+	border: none;
 	font-weight: bold;
+	text-transform: uppercase;
 	cursor: pointer;
 	margin-top: 20px;
 }
