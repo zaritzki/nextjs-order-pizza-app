@@ -28,6 +28,7 @@
 
 .text {
 	color: lightgray;
+	line-height: 21px;
 }
 
 .motto {
@@ -37,7 +38,6 @@
 
 @media screen and (max-width: 480px) {
 	.container {
-		height: auto;
 		text-align: center;
 	}
 	.item:first-child {
@@ -49,10 +49,10 @@
 	}
 
 	.title {
-		font-size: 30px;
+		font-size: 21px;
 	}
 
 	.text {
-		font-size: 20px;
+		font-size: 18px;
 	}
 }
