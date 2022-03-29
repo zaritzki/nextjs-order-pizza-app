@@ -1,13 +1,15 @@
 .container {
 	height: calc(100vh - 100px);
 	display: flex;
+	padding-top: 40px;
 }
 
 .left {
 	flex: 1;
 	height: 100%;
+	padding: 20px;
 	display: flex;
-	align-items: center;
+	align-items: flex-start;
 	justify-content: center;
 }
 
@@ -18,8 +20,12 @@
 
 .imgContainer {
 	width: 80%;
-	height: 80%;
+	height: 60%;
 	position: relative;
+}
+
+.title {
+	margin-top: 0;
 }
 
 .price {

@@ -1,9 +1,10 @@
 import Head from 'next/head'
 import Image from 'next/image'
+import axios from 'axios'
 import Banner from '../components/Banner'
 import ProductLists from '../components/ProductLists'
 
-export default function Home() {
+export default function Home({ productLists }) {
 	return (
 		<div>
 			<Head>
@@ -12,7 +13,16 @@ export default function Home() {
 				<link rel='icon' href='/favicon.ico' />
 			</Head>
 			<Banner />
-			<ProductLists />
+			<ProductLists productLists={productLists} />
 		</div>
 	)
+}
+
+export const getServerSideProps = async () => {
+	const res = await axios.get('http://localhost:3000/api/products')
+	return {
+		props: {
+			productLists: res.data,
+		},
+	}
 }
