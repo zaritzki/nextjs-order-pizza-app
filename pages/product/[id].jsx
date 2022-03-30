@@ -1,13 +1,18 @@
 import { useState } from 'react'
+import { useDispatch } from 'react-redux'
 import Image from 'next/image'
 import axios from 'axios'
+
+import { addProduct } from '../../redux/cartSlice'
+
 import styles from '../../styles/Product.module.css'
 
 const Product = ({ product }) => {
 	const [price, setPrice] = useState(product.prices[0])
 	const [size, setSize] = useState(0)
 	const [extras, setExtras] = useState([])
-	const [quantity, setQuantity] = useState([])
+	const [quantity, setQuantity] = useState(1)
+	const dispatch = useDispatch()
 
 	const changePrice = (number) => {
 		setPrice(price + number)
@@ -19,7 +24,7 @@ const Product = ({ product }) => {
 		changePrice(priceDiff)
 	}
 
-	const handleChange = (e, option) => {
+	const handleIngredient = (e, option) => {
 		const checked = e.target.checked
 
 		if (checked) {
@@ -29,6 +34,10 @@ const Product = ({ product }) => {
 			changePrice(-option.price)
 			setExtras(extras.filter((extra) => extra._id !== option._id))
 		}
+	}
+
+	const handleAddCart = () => {
+		dispatch(addProduct({ ...product, extras, price, quantity }))
 	}
 
 	return (
@@ -73,7 +82,7 @@ const Product = ({ product }) => {
 								id={option.text}
 								name={option.text}
 								className={styles.checkbox}
-								onChange={(e) => handleChange(e, option)}
+								onChange={(e) => handleIngredient(e, option)}
 							/>
 							<label htmlFor={option.text}>{option.text}</label>
 						</div>
@@ -87,7 +96,9 @@ const Product = ({ product }) => {
 						className={styles.quantity}
 						onChange={(e) => setQuantity(e.target.value)}
 					/>
-					<button className={styles.button}>Add to Cart</button>
+					<button className={styles.button} onClick={handleAddCart}>
+						Add to Cart
+					</button>
 				</div>
 			</div>
 		</div>
