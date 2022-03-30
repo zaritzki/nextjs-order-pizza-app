@@ -1,6 +1,11 @@
 import { useEffect, useState } from 'react'
 import { useDispatch, useSelector } from 'react-redux'
+import { useRouter } from 'next/router'
+import axios from 'axios'
 import Image from 'next/image'
+
+import { reset } from "../redux/cartSlice"
+
 import styles from '../styles/Cart.module.css'
 
 // Paypal
@@ -12,14 +17,28 @@ import {
 
 const Cart = () => {
 	const dispatch = useDispatch()
-	const cart = useSelector((state) => state.cart);
+	const cart = useSelector((state) => state.cart)
+	const router = useRouter()
 
-	const [open, setOpen] = useState(false);
+	const [open, setOpen] = useState(false)
+
+	const totalVal = cart.total + cart.delivery;
 
 	// Paypal - this values are the props in the UI
-	const amount = "2";
+	const amount = totalVal;
 	const currency = "USD";
 	const style = {"layout":"vertical"};
+
+	const createOrder = async (data) => {
+		try {
+
+			const res = await axios.post("http://localhost:3000/api/orders", data)
+			res.status === 201 && router.push("/orders/" + res.data._id)
+			dispatch(reset())
+		} catch(err) {
+			console.log(err)
+		}
+	}
 	
 	// Custom component to wrap the PayPalButtons and handle currency changes
 	const ButtonWrapper = ({ currency, showSpinner }) => {
@@ -64,7 +83,16 @@ const Cart = () => {
 					}}
 					onApprove={function (data, actions) {
 						return actions.order.capture().then(function (details) {
-							console.log(details);
+							// console.log(details);
+							const shipping = details.purchase_units[0].shipping;
+
+							createOrder({
+								customer: shipping.name.full_name,
+								address: shipping.address.address_line_1,
+								total: cart.total,
+								method: 1, 
+							});
+
 						});
 					}}
 				/>
@@ -116,7 +144,7 @@ const Cart = () => {
 									<span className={styles.quantity}>&euro;{product.quantity}</span>
 								</td>
 								<td align='center'>
-									<span className={styles.total}>&euro;{product.price * product.quantity}</span>
+									<span className={styles.total}>&euro;{totalVal}</span>
 								</td>
 							</tr>
 						))}
