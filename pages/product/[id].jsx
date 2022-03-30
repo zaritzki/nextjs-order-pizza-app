@@ -54,7 +54,7 @@ const Product = ({ product }) => {
 			</div>
 			<div className={styles.right}>
 				<h1 className={styles.title}>{product.title}</h1>
-				<h3 className={styles.price}>${price}</h3>
+				<h3 className={styles.price}>&euro;{price}</h3>
 				<p className={styles.desc}>{product.description}</p>
 
 				<h3 className={styles.choose}>Choose the size</h3>
@@ -96,7 +96,7 @@ const Product = ({ product }) => {
 						className={styles.quantity}
 						onChange={(e) => setQuantity(e.target.value)}
 					/>
-					<button className={styles.button} onClick={handleAddCart}>
+					<button onClick={handleAddCart} className={styles.button}>
 						Add to Cart
 					</button>
 				</div>

@@ -55,14 +55,39 @@
 }
 
 .button {
-	color: #fff;
-	padding: 15px 20px;
-	background-color: #d1411e;
-	border: none;
+	color: #d1411e;
+	padding: 12px 20px;
+	background-color: white;
+	border: 2px solid #d1411e;
 	font-weight: bold;
 	text-transform: uppercase;
 	cursor: pointer;
 	margin-top: 20px;
+}
+.button:hover {
+	color: white;
+	background-color: #d1411e;
+}
+
+.paymentMethods {
+	margin-top: 20px;
+	display: flex;
+	flex-direction: column;
+}
+  
+.payButton {
+	padding: 12px 20px;
+	cursor: pointer;
+	border: none;
+	margin-bottom: 10px;
+	background-color: white;
+	color: teal;
+	font-weight: bold;
+	text-transform: uppercase;
+}
+.payButton:hover {
+	color: white;
+	background-color: teal;
 }
 
 @media screen and (max-width: 480px) {

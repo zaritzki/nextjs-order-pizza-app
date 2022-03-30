@@ -21,7 +21,7 @@ const ProductCard = ({ product }) => {
 					<h1 className={styles.title}>{product.title}</h1>
 				</a>
 			</Link>
-			<span className={styles.price}>${product.prices[0]}</span>
+			<span className={styles.price}>&euro;{product.prices[0]}</span>
 			<p className={styles.desc}>{product.description}</p>
 		</div>
 	)
