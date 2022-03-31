@@ -21,6 +21,9 @@ const Order = ({ order }) => {
 							<tr className={styles.trTitle}>
 								<th>Order #</th>
 								<th>Customer</th>
+								{ order.mobile !== '' && (
+									<th>Mobile</th>
+								)}
 								<th>Address</th>
 								<th>Total</th>
 							</tr>
@@ -33,8 +36,13 @@ const Order = ({ order }) => {
 								<td>
 									<span className={styles.name}>{ order.customer }</span>
 								</td>
+								{order.mobile !== '' && (
+									<td>
+										<span className={styles.text}>{ order.mobile }</span>
+									</td>
+								)}
 								<td>
-									<span className={styles.address}>
+									<span className={styles.text}>
 										{ order.address }
 									</span>
 								</td>

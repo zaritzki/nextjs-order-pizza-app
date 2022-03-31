@@ -6,8 +6,6 @@ import Image from 'next/image'
 
 import { reset } from "../redux/cartSlice"
 
-import styles from '../styles/Cart.module.css'
-
 // Paypal
 import {
 	PayPalScriptProvider,
@@ -15,12 +13,16 @@ import {
 	usePayPalScriptReducer,
 } from "@paypal/react-paypal-js";
 
+import OrderDetail from '../components/OrderDetail'
+import styles from '../styles/Cart.module.css'
+
 const Cart = () => {
 	const dispatch = useDispatch()
 	const router = useRouter()
 	const cart = useSelector((state) => state.cart)
 
 	const [open, setOpen] = useState(false)
+	const [cash, setCash] = useState(false)
 
 	const totalVal = cart.subtotal + cart.delivery;
 
@@ -31,9 +33,6 @@ const Cart = () => {
 
 	const createOrder = async (data) => {
 		try {
-
-			console.log(data);
-
 			const res = await axios.post("http://localhost:3000/api/orders", data)
 			res.status === 201 && router.push("/orders/" + res.data._id)
 			dispatch(reset())
@@ -176,7 +175,7 @@ const Cart = () => {
 					</h4>
 					{open ? (
 						<div className={styles.paymentMethods}>
-							<button className={styles.payButton}>Cash on Delivery</button>
+							<button onClick={() => setCash(true)} className={styles.payButton}>Cash on Delivery</button>
 							<PayPalScriptProvider
 								options={{
 									"client-id": "AYW1df-J1PWRzlpSORfn8FPtkeEPxRe5xrLCgNPMa0JiUfQ8F5hsuGJurtR4BkJHnBZZCq7-YUITl2QQ",
@@ -196,6 +195,7 @@ const Cart = () => {
 					)}
 				</div>
 			</div>
+			{ cash && <OrderDetail cart={cart} createOrder={createOrder} />}
 		</div>
 	)
 }

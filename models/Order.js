@@ -12,6 +12,11 @@ const OrderSchema = new mongoose.Schema(
 			required: true,
 			maxlength: 200,
 		},
+		mobile: {
+			type: String,
+			maxlength: 25,
+			required: false,
+		},
 		subtotal: {
 			type: Number,
 			required: true,
