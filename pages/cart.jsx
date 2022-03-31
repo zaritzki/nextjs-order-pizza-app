@@ -17,20 +17,22 @@ import {
 
 const Cart = () => {
 	const dispatch = useDispatch()
-	const cart = useSelector((state) => state.cart)
 	const router = useRouter()
+	const cart = useSelector((state) => state.cart)
 
 	const [open, setOpen] = useState(false)
 
-	const totalVal = cart.total + cart.delivery;
+	const totalVal = cart.subtotal + cart.delivery;
 
 	// Paypal - this values are the props in the UI
 	const amount = totalVal;
-	const currency = "USD";
+	const currency = "EUR";
 	const style = {"layout":"vertical"};
 
 	const createOrder = async (data) => {
 		try {
+
+			console.log(data);
 
 			const res = await axios.post("http://localhost:3000/api/orders", data)
 			res.status === 201 && router.push("/orders/" + res.data._id)
@@ -89,7 +91,10 @@ const Cart = () => {
 							createOrder({
 								customer: shipping.name.full_name,
 								address: shipping.address.address_line_1,
-								total: cart.total,
+								subtotal: cart.total,
+								delivery: cart.delivery,
+								discount: cart.discount,
+								total: totalVal,
 								method: 1, 
 							});
 
@@ -144,7 +149,7 @@ const Cart = () => {
 									<span className={styles.quantity}>&euro;{product.quantity}</span>
 								</td>
 								<td align='center'>
-									<span className={styles.total}>&euro;{totalVal}</span>
+									<span className={styles.total}>&euro;{ product.price * product.quantity }</span>
 								</td>
 							</tr>
 						))}
@@ -155,7 +160,7 @@ const Cart = () => {
 				<div className={styles.wrapper}>
 					<div className={styles.totalText}>
 						<strong className={styles.totalTextTitle}>Subtotal:</strong>
-						<span className={styles.totalTextValue}>&euro;{cart.total}</span>
+						<span className={styles.totalTextValue}>&euro;{cart.subtotal}</span>
 					</div>
 					<div className={styles.totalText}>
 						<strong className={styles.totalTextTitle}>Delivery:</strong>
@@ -167,7 +172,7 @@ const Cart = () => {
 					</div>
 					<h4 className={styles.totalText}>
 						<strong className={styles.totalTextTitle}>Total:</strong>
-						<span className={styles.totalTextValue}>&euro;{cart.total + cart.delivery}</span>
+						<span className={styles.totalTextValue}>&euro;{totalVal}</span>
 					</h4>
 					{open ? (
 						<div className={styles.paymentMethods}>
