@@ -2,7 +2,9 @@ import dbConnect from '../../../utils/mongodb'
 import Product from '../../../models/Product'
 
 export default async function handler(req, res) {
-	const { method } = req
+	const { method, cookies } = req
+
+	const token = cookies.token
 
 	dbConnect()
 
@@ -15,6 +17,9 @@ export default async function handler(req, res) {
 		}
 	}
 	if (method === 'POST') {
+		if (!token || token !== process.env.TOKEN) {
+			return res.statuc(401).json('Not Authenticated!');
+		}
 		try {
 			const product = await Product.create(req.body)
 			res.status(201).json(product)
